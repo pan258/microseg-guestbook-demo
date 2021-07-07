@@ -1,0 +1,69 @@
+APIVersion: 1
+data:
+  networkrulesetpolicies:
+  - name: guestbook backend intra-app
+    incomingRules:
+    - action: Allow
+      logsDisabled: false
+      object:
+      - - '@org:cloudaccount={{.Values.cloudAccount}}'
+        - '@org:group={{.Values.group}}'
+        - '@org:kubernetes={{.Values.ns}}'
+        - '@org:tenant={{.Values.tenant}}'
+        - tier=backend
+      observationEnabled: false
+      protocolPorts:
+      - any
+    - action: Allow
+      logsDisabled: false
+      object:
+      - - '@org:cloudaccount={{.Values.cloudAccount}}'
+        - '@org:group={{.Values.group}}'
+        - '@org:kubernetes={{.Values.ns}}'
+        - '@org:tenant={{.Values.tenant}}'
+        - tier=frontend
+      observationEnabled: false
+      protocolPorts:
+      - any
+    outgoingRules:
+    - action: Allow
+      logsDisabled: false
+      object:
+      - - '@org:cloudaccount={{.Values.cloudAccount}}'
+        - '@org:group={{.Values.group}}'
+        - '@org:kubernetes={{.Values.ns}}'
+        - '@org:tenant={{.Values.tenant}}'
+        - tier=backend
+      observationEnabled: false
+      protocolPorts:
+      - any
+    propagate: true
+    subject:
+    - - '@org:cloudaccount={{.Values.cloudAccount}}'
+      - '@org:group={{.Values.group}}'
+      - '@org:kubernetes={{.Values.ns}}'
+      - '@org:tenant={{.Values.tenant}}'
+      - tier=backend
+  - name: guestbook frontend intra-app
+    outgoingRules:
+    - action: Allow
+      logsDisabled: false
+      object:
+      - - '@org:cloudaccount={{.Values.cloudAccount}}'
+        - '@org:group={{.Values.group}}'
+        - '@org:kubernetes={{.Values.ns}}'
+        - '@org:tenant={{.Values.tenant}}'
+        - tier=backend
+      observationEnabled: false
+      protocolPorts:
+      - any
+    propagate: true
+    subject:
+    - - '@org:cloudaccount={{.Values.cloudAccount}}'
+      - '@org:group={{.Values.group}}'
+      - '@org:kubernetes={{.Values.ns}}'
+      - '@org:tenant={{.Values.tenant}}'
+      - tier=frontend
+identities:
+- networkrulesetpolicy
+label: jenkins-guestbook-ruleset
