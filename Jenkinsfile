@@ -1,8 +1,8 @@
 node {
 
     stage('Startup Clean') {
-        sh 'rm -f -r -d -v *'
-        sh 'rm -f -r -d -v .[!.]* ..?*'
+        sh 'rm -f -r -d *'
+        sh 'rm -f -r -d .[!.]* ..?*'
     }
 
     stage('cloneRepository') {
@@ -17,7 +17,7 @@ node {
                     clusterName: '',
                     namespace: ''
                     ]) {
-            sh "kubectl create namespace ${env.ns} && \
+            sh "kubectl create namespace ${env.ns} --dry-run=client -o yaml | kubectl apply -f -  && \
             kubectl apply -f redis-leader-deployment.yaml -n ${env.ns} && \
             kubectl apply -f redis-leader-service.yaml -n ${env.ns} && \
             kubectl apply -f redis-follower-deployment.yaml -n ${env.ns} && \
@@ -42,7 +42,7 @@ node {
     }
 
     stage('End Clean') {
-        sh 'rm -f -r -d -v *'
-        sh 'rm -f -r -d -v .[!.]* ..?*'
+        sh 'rm -f -r -d *'
+        sh 'rm -f -r -d .[!.]* ..?*'
     }
 }
