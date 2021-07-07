@@ -17,13 +17,13 @@ node {
                     clusterName: '',
                     namespace: ''
                     ]) {
-            sh "kubectl create namespace $env.ns && \
-            kubectl apply -f redis-leader-deployment.yaml -n $env.ns && \
-            kubectl apply -f redis-leader-service.yaml -n $env.ns && \
-            kubectl apply -f redis-follower-deployment.yaml -n $env.ns && \
-            kubectl apply -f redis-follower-service.yaml -n $env.ns && \
-            kubectl apply -f frontend-deployment.yaml -n $env.ns && \
-            kubectl apply -f frontend-service.yaml -n $env.ns"
+            sh "kubectl create namespace ${env.ns} && \
+            kubectl apply -f redis-leader-deployment.yaml -n ${env.ns} && \
+            kubectl apply -f redis-leader-service.yaml -n ${env.ns} && \
+            kubectl apply -f redis-follower-deployment.yaml -n ${env.ns} && \
+            kubectl apply -f redis-follower-service.yaml -n ${env.ns} && \
+            kubectl apply -f frontend-deployment.yaml -n ${env.ns} && \
+            kubectl apply -f frontend-service.yaml -n ${env.ns}"
         }
     }
 
@@ -37,7 +37,7 @@ node {
         sh 'curl -o apoctl https://download.aporeto.com/apoctl/linux/apoctl'
         sh 'chmod +x apoctl'
         withEnv(["APOCTL_CREDS=$WORKSPACE/default.creds"]) {
-            sh "./apoctl apoctl api import -n /$env.tenant/$env.cloudAccount/$env.group/$env.ns -f guestbook-ruleset.yaml --set tenant=$env.tenant --set cloudAccount=$env.cloudAccount --set group=$env.group --set ns=$env.ns"
+            sh "./apoctl apoctl api import -n /${env.tenant}/${env.cloudAccount}/${env.group}/${env.ns} -f guestbook-ruleset.yaml --set tenant=${env.tenant} --set cloudAccount=${env.cloudAccount} --set group=${env.group} --set ns=${env.ns}"
         }
     }
 
