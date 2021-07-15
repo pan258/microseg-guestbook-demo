@@ -3,8 +3,7 @@
 # this sample is from:
 # https://kubernetes.io/docs/tutorials/stateless-application/guestbook/
 
-kubectl create namespace guestbook && \
-
+kubectl create namespace guestbook --dry-run=client -o yaml | kubectl apply -f - && \
 kubectl apply -f redis-leader-deployment.yaml -n guestbook && \
 kubectl apply -f redis-leader-service.yaml -n guestbook && \
 kubectl apply -f redis-follower-deployment.yaml -n guestbook && \
