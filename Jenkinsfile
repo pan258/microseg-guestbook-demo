@@ -10,7 +10,7 @@ node {
     }
 
     stage('Deploy Guestbook App') {
-        withKubeConfig([credentialsId: 'kubeconfig-cluster2',
+        withKubeConfig([credentialsId: 'kubeconfig-cluster',
                     caCertificate: '',
                     serverUrl: '',
                     contextName: '',
